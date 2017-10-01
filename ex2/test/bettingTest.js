@@ -60,3 +60,20 @@ contract('BettingTestOracleSet', function(accounts) {
 		});
 	});
 });
+
+contract('BettingTestMakeBet', function(accounts) {
+	const null_address = '0x0000000000000000000000000000000000000000';
+	const args = {_owner: accounts[1], _oracle: accounts[2],
+		_other: accounts[3], _fail: null_address};
+
+	it("A user can make a bet", function() {
+		return Betting.new({from: args._owner})
+		.then(function(instance) {
+			return instance.makeBet.call(4, {from: args._other});
+		})
+		.then(function(result) {
+			assert.equal(result, true, "Make Bet should return " +
+				"true");
+		});
+	});
+});
